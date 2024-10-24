@@ -1,0 +1,20 @@
+name: Test Memory on JPG Files
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+
+  test-memory:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: test de chaque fichier
+        run: |
+          for file in *.jpg; do
+            file "$file"
+          done
