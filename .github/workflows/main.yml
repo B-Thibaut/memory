@@ -53,10 +53,10 @@ jobs:
 
       - name: creation du serveur
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no thib@127.0.0.1 << EOF
+#          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no thib@127.0.0.1 << EOF
             #sudo docker pull ${{ secrets.DOCKER_USER }}/memory:latest
-            cd ~/memory
+            scp -o StrictHostKeyChecking=no docker-compose.yml thib@127.0.0.1:~/memory/docker-compose.yml
             docker-compose down
             docker-compose pull
             docker-compose up -d
-          EOF
+ #         EOF
