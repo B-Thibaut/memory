@@ -15,6 +15,6 @@ jobs:
 
       - name: test de chaque fichier
         run: |
-          for file in *.jpg; do
+          for file in html/data/*.jpg; do
             file "$file"
           done
