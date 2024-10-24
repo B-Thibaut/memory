@@ -14,11 +14,12 @@ jobs:
         uses: actions/checkout@v3
 
       - name: test de chaque fichier
-        run: for file in html/data/*.jpg; do
+        run: |
+          for file in html/data/*.jpg; do
             file "$file"
           done
 
- build-memory:
+  build-memory:
     runs-on: self-hosted
     needs: test-memory
     steps:
