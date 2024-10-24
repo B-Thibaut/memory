@@ -1,0 +1,7 @@
+version: '3'
+services:
+  memory-app:
+    image: ${{ secrets.DOCKER_USER }}/memory:latest
+    container_name: memory-container
+    ports:
+      - "80:80"
