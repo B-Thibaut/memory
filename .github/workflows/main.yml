@@ -54,8 +54,8 @@ jobs:
       - name: Deploy to remote server
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no thib@127.0.0.1 << EOF
-            sudo docker pull ${{ secrets.DOCKER_USER }}/memory:latest
-            sudo docker stop memory-container || true
-            sudo docker rm memory-container || true
-            sudo docker run -d --name memory-container -p 80:80 ${{ secrets.DOCKER_USER }}/memory:latest
+            #sudo docker pull ${{ secrets.DOCKER_USER }}/memory:latest
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d
           EOF
