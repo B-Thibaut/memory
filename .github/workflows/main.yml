@@ -41,3 +41,22 @@ jobs:
 
       - name: Push l'image vers le hub
         run: sudo docker push ${{ secrets.DOCKER_USER }}/memory:latest
+
+  deploy-memory:
+    runs-on: self-hosted
+    needs: push-memory
+    steps:
+      - name: lance le contenaire sur la machine local par le biais du ssh
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to remote server
+        run: ssh -o StrictHostKeyChecking=no thib@127.0.0.1 << 'EOF'
+            sudo docker pull ${{ secrets.DOCKER_USER }}/memory:latest
+
+            sudo docker stop memory-container || true
+            sudo docker rm memory-container || true
+
+            sudo docker run -d --name memory-container -p 80:80 ${{ secrets.DOCKER_USER }}/memory:latest
+          EOFssh -o StrictHostKeyChecking=no thib@127.0.0.1 << 'EOF'
