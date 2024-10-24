@@ -55,6 +55,7 @@ jobs:
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no thib@127.0.0.1 << EOF
             #sudo docker pull ${{ secrets.DOCKER_USER }}/memory:latest
+            cd ~/memory
             docker-compose down
             docker-compose pull
             docker-compose up -d
