@@ -11,7 +11,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: test de chaque fichier
         run: |
@@ -24,7 +24,22 @@ jobs:
     needs: test-memory
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: build du docker
         run: sudo docker build -t bouthibaut/memory .
+
+  push-memory:
+    runs-on: self-hosted
+    needs: build-memory
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in vers dockerhub
+        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
+
+      - name: Push l'image vers le hub
+        run: |
+          docker push ${{ secrets.DOCKER_USER }}/${{ env.APP_NAME }}:latest
